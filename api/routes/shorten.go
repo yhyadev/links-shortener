@@ -25,7 +25,7 @@ func Shorten(ctx *fiber.Ctx) error {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid URL"})
 	}
 
-	slug := helpers.Encode(rand.Int())
+	slug := helpers.Encode(rand.Uint64())
 
 	link := &database.Link{
 		Slug:     slug,
