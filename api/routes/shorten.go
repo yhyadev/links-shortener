@@ -29,7 +29,7 @@ func Shorten(ctx *fiber.Ctx) error {
 
 	link := &database.Link{
 		Slug:     slug,
-		Redirect: body.URL,
+		Redirect: helpers.EnforceHTTP(body.URL),
 	}
 
 	if err := mgm.Coll(link).Create(link); err != nil {

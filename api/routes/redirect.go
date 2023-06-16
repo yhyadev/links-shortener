@@ -12,7 +12,7 @@ func Redirect(ctx *fiber.Ctx) error {
 
   link := &database.Link{}
   if err := mgm.Coll(link).First(bson.M{"slug": slug}, link); err != nil {
-    return ctx.Status(fiber.StatusBadRequest).JSON(err)
+    return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid slug"})
   }
 
   return ctx.Redirect(link.Redirect, 301)
