@@ -1,7 +1,40 @@
 package routes
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"math/rand"
+
+	"github.com/asaskevich/govalidator"
+	"github.com/gofiber/fiber/v2"
+	"github.com/kamva/mgm/v3"
+	"github.com/yhyadev/links-shortener/database"
+	"github.com/yhyadev/links-shortener/helpers"
+)
+
+type requestBody struct {
+  URL string `json:"url"`
+}
 
 func Shorten(ctx *fiber.Ctx) error {
-  return nil
+	body := requestBody{}
+
+	if err := ctx.BodyParser(&body); err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid body"})
+	}
+
+	if govalidator.IsURL(body.URL) != true {
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid URL"})
+	}
+
+	slug := helpers.Encode(rand.Int())
+
+	link := &database.Link{
+		Slug:     slug,
+		Redirect: body.URL,
+	}
+
+	if err := mgm.Coll(link).Create(link); err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(err)
+	}
+
+	return ctx.Status(fiber.StatusOK).JSON(link)
 }
