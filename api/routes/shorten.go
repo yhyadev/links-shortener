@@ -11,7 +11,7 @@ import (
 )
 
 type requestBody struct {
-  URL string `json:"url"`
+	URL string `json:"url"`
 }
 
 func Shorten(ctx *fiber.Ctx) error {
@@ -26,10 +26,11 @@ func Shorten(ctx *fiber.Ctx) error {
 	}
 
 	slug := helpers.Encode(rand.Uint64())
+	url := helpers.EnforceHTTP(body.URL)
 
 	link := &database.Link{
 		Slug:     slug,
-		Redirect: helpers.EnforceHTTP(body.URL),
+		Redirect: url,
 	}
 
 	if err := mgm.Coll(link).Create(link); err != nil {
