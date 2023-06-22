@@ -51,5 +51,5 @@ To host the application locally, follow the instructions below.
 ## Motivation
 I developed this application for the purpose of learning and providing valuable resources to others. It serves as a reference for creating a link shortener in Go and demonstrates how to use Axios in Svelte. Additionally, I created this project for personal use, as I needed to complete more projects efficiently within a shorter timeframe.
 
-# Conclusion
+## Conclusion
 I believe I have done a great job in developing this application, which not only benefits me but also provides resources and references to other developers. Thank you for your time, and have a great day, fellow developers!
